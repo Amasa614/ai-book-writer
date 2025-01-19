@@ -11,39 +11,37 @@ def main():
     
     # Initial prompt for the book
     initial_prompt = """
-    Create a story in my established writing style with these key elements:
-    Its important that it has several key storylines that intersect and influence each other. The story should be set in a modern corporate environment, with a focus on technology and finance. The protagonist is a software engineer named Dane who has just completed a groundbreaking stock prediction algorithm. The algorithm predicts a catastrophic market crash, but Dane oversleeps and must rush to an important presentation to share his findings with executives. The tension arises from the questioning of whether his "error" might actually be correct.
+    Create a Ghanaian folklore story that embodies traditional storytelling elements with local flavor and wisdom. The story should feature well-known folklore characters like Kweku Ananse, the cunning trickster, alongside figures such as Tortoise (akyekyedeɛ), Owl (patuo), and the wise Ohene Amasa, set in a vibrant Ghanaian village.
 
-    The piece is written in third-person limited perspective, following Dane's thoughts and experiences. The prose is direct and technical when describing the protagonist's work, but becomes more introspective during personal moments. The author employs a mix of dialogue and internal monologue, with particular attention to time progression and technical details around the algorithm and stock predictions.
-    Story Arch:
+The story should incorporate proverbs, riddles, and cultural values such as community unity, patience, honesty, and wit, weaving lessons into the narrative. The setting should reflect a typical Ghanaian village, complete with bustling market scenes, evening storytelling under the baobab tree, and traditional ceremonies featuring kente, adowa dance, and the sounds of the talking drum.
 
-    Setup: Dane completes a groundbreaking stock prediction algorithm late at night
-    Initial Conflict: The algorithm predicts a catastrophic market crash
-    Rising Action: Dane oversleeps and must rush to an important presentation
-    Climax: The presentation to executives where he must explain his findings
-    Tension Point: The questioning of whether his "error" might actually be correct
+Story Structure:
 
-    Characters:
+Setup: Ananse hears of a magical talking drum hidden deep in the forest, said to grant great wisdom and fortune to whoever possesses it.
+Initial Conflict: The village elders announce a challenge—whoever brings the drum back will earn the title of "The Wisest of All." Ananse, akyekyedeɛ, and patuo each set off on the quest.
+Rising Action: Ananse uses his trickery to outwit his competitors but faces unexpected trials from spirits of the forest (Mmoatia).
+Climax: Upon finding the drum, Ananse must solve a riddle posed by the ancestors to claim it.
+Resolution: Ananse learns that true wisdom comes not from trickery but from humility and teamwork.
+Characters:
 
-    Dane: The protagonist; a dedicated software engineer who prioritizes work over personal life. Wears grey polo shirts on Thursdays, tends to get lost in his work, and struggles with work-life balance. More comfortable with code than public speaking.
-    Gary: Dane's nervous boss who seems caught between supporting Dane and managing upper management's expectations
-    Jonathan Morego: Senior VP of Investor Relations who raises pointed questions about the validity of Dane's predictions
-    Silence: Brief mention as an Uber driver
-    C-Level Executives: Present as an audience during the presentation
+Kweku Ananse: Cunning and always seeking an easy way out, yet lovable and relatable.
+akyekyedeɛ (Tortoise): Slow but wise and persistent.
+patuo (Owl): Keeper of ancient wisdom, mysterious and observant.
+Ohene Amasa: The respected leader, fair and just.
+Mmoatia (Forest Spirits): Mischievous and wise beings who test the challengers.
 
-    World Description:
-    The story takes place in a contemporary corporate setting, likely a financial technology company. The world appears to be our modern one, with familiar elements like:
+Themes:
+The value of wisdom over cunning.
+The importance of community and collaboration.
+Respect for tradition and elders.
+Cultural Elements:
+Include descriptions of Ghanaian foods like fufu and light soup, the beauty of kente cloth, the significance of adinkra symbols, and interactions in Twi phrases such as:
 
-    Major tech companies (Tesla, Google, Apple, Microsoft)
-    Stock market and financial systems
-    Modern technology (neural networks, predictive analytics)
-    Urban environment with rideshare services like Uber
-    Corporate hierarchy and office culture
+"Ananse, wo ho te sɛn?" (Ananse, how are you?)
+"Ɛyɛ, me da ase." (I’m fine, thank you.)
+"""
 
-    The story creates tension between the familiar corporate world and the potential for an unprecedented financial catastrophe, blending elements of technical thriller with workplace drama. The setting feels grounded in reality but hints at potentially apocalyptic economic consequences.
-    """
-
-    num_chapters = 25
+    num_chapters = 5
     # Create agents
     outline_agents = BookAgents(agent_config)
     agents = outline_agents.create_agents(initial_prompt, num_chapters)
@@ -69,7 +67,7 @@ def main():
     
     # Save the outline for reference
     print("\nSaving outline to file...")
-    with open("book_output/outline.txt", "w") as f:
+    with open("book_output/outline.txt", "w", encoding="utf-8") as f:
         for chapter in outline:
             f.write(f"\nChapter {chapter['chapter_number']}: {chapter['title']}\n")
             f.write("-" * 50 + "\n")

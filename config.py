@@ -1,15 +1,17 @@
 """Configuration for the book generation system"""
-import os
-from typing import Dict, List
+from typing import Dict
 
-def get_config(local_url: str = "http://localhost:1234/v1") -> Dict:
-    """Get the configuration for the agents"""
-    
-    # Basic config for local LLM
+def get_config() -> Dict:
+    """Get the configuration for the agents using GPT-4"""
+
+    # Directly specify the OpenAI API key here
+    openai_api_key = "sk-None-Your-OpenAI-API-Key-Here"
+
+    # Config for GPT-4 via OpenAI API
     config_list = [{
-        'model': 'Mistral-Nemo-Instruct-2407',
-        'base_url': local_url,
-        'api_key': "not-needed"
+        'model': 'gpt-4-turbo',
+        'base_url': "https://api.openai.com/v1",
+        'api_key': openai_api_key
     }]
 
     # Common configuration for all agents
