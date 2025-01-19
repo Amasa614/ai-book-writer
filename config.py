@@ -5,7 +5,7 @@ def get_config() -> Dict:
     """Get the configuration for the agents using GPT-4"""
 
     # Directly specify the OpenAI API key here
-    openai_api_key = "sk-None-Your-OpenAI-API-Key-Here"
+    openai_api_key = "sk-None-None-None-None"
 
     # Config for GPT-4 via OpenAI API
     config_list = [{

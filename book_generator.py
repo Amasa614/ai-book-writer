@@ -317,25 +317,24 @@ Keep it simple and direct."""
             print(f"Error saving chapter: {str(e)}")
             raise
 
-    def generate_book(self, outline: List[Dict]) -> None:
-        """Generate the book with strict chapter sequencing"""
+    def generate_book(self, outline: List[Dict]) -> List[Dict]:
+        """Generate the book with strict chapter sequencing and return full content"""
         print("\nStarting Book Generation...")
         print(f"Total chapters: {len(outline)}")
         
-        # Sort outline by chapter number
         sorted_outline = sorted(outline, key=lambda x: x["chapter_number"])
-        
+        book_content = []
+
         for chapter in sorted_outline:
             chapter_number = chapter["chapter_number"]
             
-            # Verify previous chapter exists and is valid
+            # Verify previous chapter
             if chapter_number > 1:
                 prev_file = os.path.join(self.output_dir, f"chapter_{chapter_number-1:02d}.txt")
                 if not os.path.exists(prev_file):
                     print(f"Previous chapter {chapter_number-1} not found. Stopping.")
                     break
                     
-                # Verify previous chapter content
                 with open(prev_file, 'r', encoding='utf-8') as f:
                     content = f.read()
                     if not self._verify_chapter_content(content, chapter_number-1):
@@ -345,21 +344,26 @@ Keep it simple and direct."""
             # Generate current chapter
             print(f"\n{'='*20} Chapter {chapter_number} {'='*20}")
             self.generate_chapter(chapter_number, chapter["prompt"])
-            
-            # Verify current chapter
+
+            # Read and store generated chapter
             chapter_file = os.path.join(self.output_dir, f"chapter_{chapter_number:02d}.txt")
-            if not os.path.exists(chapter_file):
+            if os.path.exists(chapter_file):
+                with open(chapter_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    book_content.append({
+                        "chapter_number": chapter_number,
+                        "title": chapter["title"],
+                        "content": content.strip()
+                    })
+                print(f"✓ Chapter {chapter_number} complete")
+            else:
                 print(f"Failed to generate chapter {chapter_number}")
                 break
-                
-            with open(chapter_file, 'r', encoding='utf-8') as f:
-                content = f.read()
-                if not self._verify_chapter_content(content, chapter_number):
-                    print(f"Chapter {chapter_number} content invalid")
-                    break
-                    
-            print(f"✓ Chapter {chapter_number} complete")
+
             time.sleep(5)
+
+        return book_content
+
 
     def _verify_chapter_content(self, content: str, chapter_number: int) -> bool:
         """Verify chapter content is valid"""

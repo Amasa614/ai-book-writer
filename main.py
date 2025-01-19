@@ -1,14 +1,28 @@
 """Main script for running the book generation system"""
+import os
 from config import get_config
 from agents import BookAgents
 from book_generator import BookGenerator
 from outline_generator import OutlineGenerator
+from txt2pdf import save_book_to_pdf
+
+def save_book_to_txt(book_content, output_dir="book_output"):
+    """Save the generated book content to a text file for editing."""
+    os.makedirs(output_dir, exist_ok=True)
+    txt_file_path = os.path.join(output_dir, "full_book.txt")
+
+    with open(txt_file_path, "w", encoding="utf-8") as f:
+        for chapter in book_content:
+            f.write(f"\nChapter {chapter['chapter_number']}: {chapter['title']}\n")
+            f.write("-" * 50 + "\n")
+            f.write(chapter['content'] + "\n")
+    
+    print(f"Book saved for editing: {txt_file_path}")
 
 def main():
     # Get configuration
     agent_config = get_config()
 
-    
     # Initial prompt for the book
     initial_prompt = """
     Create a Ghanaian folklore story that embodies traditional storytelling elements with local flavor and wisdom. The story should feature well-known folklore characters like Kweku Ananse, the cunning trickster, alongside figures such as Tortoise (akyekyedeɛ), Owl (patuo), and the wise Ohene Amasa, set in a vibrant Ghanaian village.
@@ -41,7 +55,7 @@ Include descriptions of Ghanaian foods like fufu and light soup, the beauty of k
 "Ɛyɛ, me da ase." (I’m fine, thank you.)
 """
 
-    num_chapters = 5
+    num_chapters = 3
     # Create agents
     outline_agents = BookAgents(agent_config)
     agents = outline_agents.create_agents(initial_prompt, num_chapters)
@@ -58,27 +72,31 @@ Include descriptions of Ghanaian foods like fufu and light soup, the beauty of k
     # Initialize book generator with contextual agents
     book_gen = BookGenerator(agents_with_context, agent_config, outline)
     
-    # Print the generated outline
+    # Print and save the generated outline
     print("\nGenerated Outline:")
     for chapter in outline:
         print(f"\nChapter {chapter['chapter_number']}: {chapter['title']}")
         print("-" * 50)
         print(chapter['prompt'])
-    
+
     # Save the outline for reference
     print("\nSaving outline to file...")
+    os.makedirs("book_output", exist_ok=True)
     with open("book_output/outline.txt", "w", encoding="utf-8") as f:
         for chapter in outline:
             f.write(f"\nChapter {chapter['chapter_number']}: {chapter['title']}\n")
             f.write("-" * 50 + "\n")
             f.write(chapter['prompt'] + "\n")
-    
+
     # Generate the book using the outline
     print("\nGenerating book chapters...")
-    if outline:
-        book_gen.generate_book(outline)
+    full_book = book_gen.generate_book(outline)
+
+    if full_book:
+        save_book_to_txt(full_book)
+        save_book_to_pdf(full_book)
     else:
-        print("Error: No outline was generated.")
+        print("Error: Book generation failed. No content to save.")
 
 if __name__ == "__main__":
     main()
