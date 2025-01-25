@@ -10,6 +10,8 @@ A Python-based system that uses AutoGen to generate complete books through colla
 - Automated world-building and setting management
 - Support for complex, multi-chapter narratives
 - Built-in validation and error handling
+- Export story as a pdf file
+- Generation of story book covers
 
 ## Architecture
 
@@ -21,6 +23,7 @@ The system uses several specialized agents:
 - **Writer**: Generates the actual prose
 - **Editor**: Reviews and improves content
 - **Outline Creator**: Creates detailed chapter outlines
+- **pdf generator**: Converts generated story into pdf
 
 ## Installation
 
