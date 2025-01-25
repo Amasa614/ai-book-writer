@@ -1,4 +1,4 @@
-# AutoGen Book Generator
+# AI book Writer
 
 A Python-based system that uses AutoGen to generate complete books through collaborative AI agents. The system employs multiple specialized agents working together to create coherent, structured narratives from initial prompts.
 
